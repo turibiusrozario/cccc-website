@@ -2,7 +2,7 @@
 window.CCCC_CONFIG = {
   // Paste the Google Sheet "Publish to web" CSV link here (see README.md, step 2).
   // While this is empty, the site reads data/content.csv instead.
-  SHEET_CSV_URL: "",
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdtC0VD0dxTfVFDYh5bhu988f5LSOvmI2nxitGqo7tebKHdTLohp0cvAyisvwCK11OpJbmG-UsmwZo/pub?output=csv",
 
   // Used if the Google Sheet cannot be reached.
   FALLBACK_CSV: "data/content.csv",

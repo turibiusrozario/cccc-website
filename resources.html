@@ -4,31 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Resources · CCCC</title>
-<meta name="description" content="Links to groups, tools, and documents shared by the Cross Campus Climate Coalition.">
+<meta name="description" content="Links and information for the Cross Campus Climate Coalition.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
+<script src="js/settings.js"></script>
 </head>
 <body data-page="resources">
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html">
-      <img src="assets/logo.svg" alt="" width="72" height="72">
-      <span>Cross Campus Climate Coalition<small>CCCC · Massachusetts</small></span>
+      <img src="assets/logo.svg" alt="" width="56" height="56">
+      <span>Cross Campus Climate Coalition<small>CCCC</small></span>
     </a>
-    <nav aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="past.html">Past work</a></li><li><a href="resources.html" aria-current="page">Resources</a></li></ul></nav>
+    <div class="controls">
+      <nav aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="past.html">Past work</a></li><li><a href="resources.html" aria-current="page">Resources</a></li></ul></nav>
+      <span id="settings-slot"></span>
+    </div>
   </div>
 </header>
 <main id="main" tabindex="-1">
 <div class="wrap">
 
-<section class="page-title" aria-labelledby="h-rp">
-  <h1 id="h-rp">Resources</h1>
-  <p class="lede">Links to other websites and documents. Each link opens in a new tab.</p>
+<section class="page-title"><h1>Resources</h1>
+  <div data-resources aria-busy="true"><p class="empty">Loading…</p></div>
+  <noscript><p class="empty">This list needs JavaScript.</p></noscript>
 </section>
-<div data-resources aria-busy="true"><p class="empty">Loading…</p></div>
-<noscript><p class="note">This list needs JavaScript. Please turn it on, or ask for the links in our WhatsApp group.</p></noscript>
+<section aria-labelledby="h-assist">
+  <h2 id="h-assist">Assistance we can offer</h2>
+  <ul>
+    <li>Information distribution through our <a href="https://chat.whatsapp.com/HKXZSCUcArIL27z15qgwhs" target="_blank" rel="noopener">WhatsApp group chat<svg class="ext" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z" fill="currentColor"/></svg><span class="sr-only"> (opens in a new tab)</span></a> and email lists</li>
+    <li>Assistance with event planning, with a focus on youth participation</li>
+    <li>Connecting you with other climate-related student groups</li>
+  </ul>
+</section>
+<section aria-labelledby="h-liaison">
+  <h2 id="h-liaison">Liaison role and responsibilities</h2>
+  <ul>
+    <li>Share upcoming events that are open to the public or have possibility of hosting CCCC</li>
+    <li>Vouch for more collaboration with campus leaders</li>
+    <li>Push forward initiatives on-campus and within CCCC</li>
+  </ul>
+</section>
 
 </div>
 </main>
@@ -36,14 +54,13 @@
 <div class="update-bar" id="update-bar" role="status" hidden>
   <div class="wrap">
     <p>New content is available.</p>
-    <button type="button" id="update-accept">Show new content</button>
+    <button type="button" id="update-accept" class="primary button">Show new content</button>
     <button type="button" id="update-dismiss" class="secondary">Not now</button>
   </div>
 </div>
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>Cross Campus Climate Coalition (CCCC)</strong><br>A network of Massachusetts higher education individuals and their organizations.</p>
-    <p><a href="accessibility.html">How this site is designed for access</a></p>
+    <p><strong>Cross Campus Climate Coalition</strong></p>
     <p class="small" id="checked"></p>
   </div>
 </footer>

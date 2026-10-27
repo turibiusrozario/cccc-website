@@ -123,6 +123,21 @@
   }
   var EXT_SVG = '<svg class="ext" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z" fill="currentColor"/></svg>';
 
+  function extMark(parent) {
+    parent.insertAdjacentHTML("beforeend", EXT_SVG + '<span class="sr-only"> (opens in a new tab)</span>');
+  }
+  // Plain text plus [label](https://link) markup, built with DOM calls (no HTML from the sheet is trusted).
+  function rich(parent, text) {
+    var re = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, last = 0, m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var a = el("a", null, m[1]);
+      a.href = m[2]; a.target = "_blank"; a.rel = "noopener"; extMark(a);
+      parent.appendChild(a); last = re.lastIndex;
+    }
+    if (last < text.length) parent.appendChild(document.createTextNode(text.slice(last)));
+  }
+
   function drawItem(it) {
     var li = el("li");
     var meta = whenText(it);
@@ -135,12 +150,12 @@
       s.appendChild(el("span", "hint hint-open", "Click to show less"));
       d.appendChild(s);
       var b = el("div", "body");
-      it.summary.split(/\n+/).forEach(function (t) { if (t) b.appendChild(el("p", null, t)); });
+      it.summary.split(/\n+/).forEach(function (t) { if (t) { var para = el("p"); rich(para, t); b.appendChild(para); } });
       if (it.link) {
         var p = el("p"), a = el("a", "button secondary");
         a.href = it.link; a.target = "_blank"; a.rel = "noopener";
-        a.appendChild(document.createTextNode("Open link (opens in a new tab)"));
-        a.insertAdjacentHTML("beforeend", EXT_SVG);
+        a.appendChild(document.createTextNode("Open link"));
+        extMark(a);
         p.appendChild(a); b.appendChild(p);
       }
       d.appendChild(b);
@@ -151,8 +166,7 @@
       l.appendChild(el("span", "title", it.title));
       if (meta) l.appendChild(el("span", "meta", meta));
       var h = el("span", "hint");
-      h.appendChild(document.createTextNode("Opens in a new tab"));
-      h.insertAdjacentHTML("beforeend", EXT_SVG);
+      extMark(h);   // icon only, with a hidden text label for screen readers
       l.appendChild(h);
       li.appendChild(l);
     } else {
@@ -185,7 +199,7 @@
   function drawResources(container, items) {
     container.textContent = "";
     container.removeAttribute("aria-busy");
-    if (!items.length) { container.appendChild(el("p", "empty", "No resources are listed yet.")); return; }
+    if (!items.length) { container.appendChild(el("p", "empty", "None yet.")); return; }
     var groups = [], map = {};
     items.forEach(function (it) {
       var c = it.category || "More links";
@@ -199,11 +213,11 @@
         var li = el("li");
         if (it.link) {
           var a = el("a", "res-name"); a.href = it.link; a.target = "_blank"; a.rel = "noopener";
-          a.appendChild(document.createTextNode(it.title + " (opens in a new tab)"));
-          a.insertAdjacentHTML("beforeend", EXT_SVG);
+          a.appendChild(document.createTextNode(it.title));
+          extMark(a);
           li.appendChild(a);
         } else { li.appendChild(el("span", "res-name", it.title)); }
-        if (it.summary) li.appendChild(el("p", null, it.summary));
+        if (it.summary) { var sp = el("p"); rich(sp, it.summary); li.appendChild(sp); }
         ul.appendChild(li);
       });
       container.appendChild(ul);
@@ -229,13 +243,13 @@
   function render(v) {
     var q = function (n) { return document.querySelector('[data-list="' + n + '"]'); };
     if (page === "home") {
-      drawList(q("event"), v.event, "No upcoming events are listed right now. Join the mailing list or WhatsApp group above to hear about new ones.", CAP);
-      drawList(q("project"), v.project, "No projects are listed right now.", CAP);
-      drawList(q("action"), v.action, "No open opportunities are listed right now. Check back later.", CAP);
+      drawList(q("event"), v.event, "None right now.", CAP);
+      drawList(q("project"), v.project, "None right now.", CAP);
+      drawList(q("action"), v.action, "None right now.", CAP);
     } else if (page === "past") {
-      drawList(q("event"), v.past.event, "No past events are listed yet.");
-      drawList(q("project"), v.past.project, "No past projects are listed yet.");
-      drawList(q("action"), v.past.action, "No past opportunities are listed yet.");
+      drawList(q("event"), v.past.event, "None yet.");
+      drawList(q("project"), v.past.project, "None yet.");
+      drawList(q("action"), v.past.action, "None yet.");
     } else if (page === "resources") {
       drawResources(document.querySelector("[data-resources]"), v.resource);
     }
@@ -285,7 +299,7 @@
         document.querySelectorAll("[data-list],[data-resources]").forEach(function (n) {
           n.removeAttribute("aria-busy");
           n.textContent = "";
-          var p = el("p", "empty", "The list could not be loaded. Please reload the page, or ask in our WhatsApp group.");
+          var p = el("p", "empty", "The list could not be loaded. Please reload the page.");
           n.appendChild(p);
         });
       }
